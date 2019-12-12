@@ -2,12 +2,20 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import App from '../App'
 import express from 'express'
-
+import { StaticRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from '../store/store'
 const app = express()
 app.use(express.static('public'))
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
       // 把react组件解析成HTML
-      const content = renderToString(App)
+      const content = renderToString(
+            <Provider store={store}>
+                  <StaticRouter localtion={req.url}>
+                        {App}
+                  </StaticRouter>
+            </Provider>
+      )
       res.send(`
           <html>
              <head>

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-
-function App() {
-      const [num, setNum] = useState(1)
-      return <div>
-            <h1>开课吧 {num}</h1>
-            <button onClick={() => setNum(num+1)}>++我啊</button>
+import { Route } from 'react-router-dom'
+import Index from './container/index'
+import About from './container/about'
+export default (
+      <div>
+            <Route path='/' exact component={Index}></Route>
+            <Route path='/about' exact component={About}></Route>
       </div>
-}
-
-export default <App title='开个吧'></App>
+)
