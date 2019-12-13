@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import {getIndexList} from '../store/index'
+import { getIndexList } from '../store/index'
 function Index(props) {
       const [num, setNum] = useState(1)
       useEffect(() => {
-            props.getIndexList()
-      })
+            console.log(props.list)
+            if (!props.list.length) {
+                  props.getIndexList()
+            }
+      }, [])
       return <div>
             <h1>开课吧 {num}</h1>
             <button onClick={() => setNum(num + 1)}>++我啊</button>
-            <hr/>
+            <hr />
             <ul>
                   {
                         props.list.map(i => {
-                        return <li key={i.id}>{i.name}</li>
+                              return <li key={i.id}>{i.name}</li>
                         })
                   }
             </ul>
       </div>
 }
-
-export default connect(state => ({list: state.index.list}), {getIndexList})(Index)
+Index.loadData = (store) => {
+      return store.dispatch(getIndexList())
+}
+export default connect(state => {
+      return state.index
+}, { getIndexList })(Index)

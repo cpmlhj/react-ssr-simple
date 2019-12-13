@@ -3,8 +3,9 @@ const express = require('express')
 
 const app = express()
 app.get('/api/course/list', (req, res) => {
-      res.header('Access-Control-Allow-Origin', '*')
-      res.header('Access-Control-Allow-Method', '*')
+      // res.header('Access-Control-Allow-Origin', '*')
+      
+      // res.header('Access-Control-Allow-Method', '*')
       res.header('Content-Type', "application/json;charset=utf-8")
       res.json({
             code: 1,
@@ -14,6 +15,18 @@ app.get('/api/course/list', (req, res) => {
                   {name: 'web3', id: 3},
                   {name: 'web4', id: 4}
             ]
+      })
+})
+app.get('/api/user/info1', (req, res) => {
+      // res.header('Access-Control-Allow-Origin', '*')
+      // res.header('Access-Control-Allow-Method', '*')
+      res.header('Content-Type', "application/json;charset=utf-8")
+      res.json({
+            code: 1,
+            data:{
+                  name: 'jun',
+                  best: 'jun'
+            }
       })
 })
 

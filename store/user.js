@@ -1,29 +1,30 @@
 //首页
 import request from '../request'
-const GET_LIST = 'INDEX/GET_LIST'
-const changeList = list => ({
+const GET_LIST = 'INDEX/GET_USER_INFO'
+const changeList = data => ({
       type: GET_LIST,
-      list
+      data
 })
 
-export const getIndexList = server => {
+export const getUserInfo = server => {
       return (dispatch, getState, axiosInstance) => {
-            return request.get('course/list')
+            return request.get('user/info')
                   .then(res => {
-                        const { list } = res.data
-                        dispatch(changeList(list))
+                        const { data } = res.data
+                        dispatch(changeList(data))
                   })
       }
 }
 const defaultState = {
-      list: []
+      userInfo: {}
 }
 export default (state = defaultState, action) => {
       switch (action.type) {
             case GET_LIST:
+              
                   const newState = {
                         ...state,
-                        list: action.list
+                        userInfo: action.data
                   }
                   return newState
                   default:
