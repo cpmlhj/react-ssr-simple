@@ -7,8 +7,8 @@ const changeList = data => ({
 })
 
 export const getUserInfo = server => {
-      return (dispatch, getState, axiosInstance) => {
-            return request.get('user/info')
+      return (dispatch, getState, $axios) => {
+            return $axios.get('api/user/info')
                   .then(res => {
                         const { data } = res.data
                         dispatch(changeList(data))

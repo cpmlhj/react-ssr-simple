@@ -7,8 +7,8 @@ const changeList = list => ({
 })
 
 export const getIndexList = server => {
-      return (dispatch, getState, axiosInstance) => {
-            return request.get('course/list')
+      return (dispatch, getState, $axios) => {
+            return $axios.get('api/course/list')
                   .then(res => {
                         const { list } = res.data
                         dispatch(changeList(list))
