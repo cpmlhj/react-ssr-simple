@@ -24,7 +24,10 @@ module.exports = {
                   {
                         test: /\.css$/,
                         use: ['isomorphic-style-loader', {
-                              loader: 'css-loader'
+                              loader: 'css-loader',
+                              options: {
+                                    modules: true
+                              }
                         }], // 支持JSX
 
                   }

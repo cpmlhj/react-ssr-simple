@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { getIndexList } from '../store/index'
+import styles from './index.css'
+import withStyle from '../withStyle'
 function Index(props) {
+      // if(props.staticContenxt) {
+      //       props.staticContenxt.css.push(styles._getCss())
+      // }
       const [num, setNum] = useState(1)
       useEffect(() => {
-            console.log(props.list)
             if (!props.list.length) {
                   props.getIndexList()
             }
       }, [])
-      return <div>
-            <h1>开课吧 {num}</h1>
+      return <div className={styles.container}>
+            <h1 className={styles.title}>开课吧 {num}</h1>
             <button onClick={() => setNum(num + 1)}>++我啊</button>
             <hr />
             <ul>
@@ -27,4 +31,4 @@ Index.loadData = (store) => {
 }
 export default connect(state => {
       return state.index
-}, { getIndexList })(Index)
+}, { getIndexList })(withStyle(Index, styles))

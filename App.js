@@ -4,7 +4,7 @@ import Index from './container/index'
 import About from './container/about'
 import User from './container/home'
 import NotFound from './container/NotFound'
-import './app.css'
+// import './app.css'
 // export default (
 //       <div>
 //             <Route path='/' exact component={Index}></Route>

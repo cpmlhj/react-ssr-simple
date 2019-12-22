@@ -1,5 +1,5 @@
 const path = require('path')
-
+const HTMLWebPackPlugin = require('html-webpack-plugin')
 // 服务端webpack
 module.exports = {
       mode: 'development',
@@ -8,6 +8,13 @@ module.exports = {
             filename: 'bundle.js',
             path: path.resolve(__dirname, 'public')
       },
+      plugins: [
+          new HTMLWebPackPlugin({
+                filename: 'index.csr.html',
+                template: 'index.csr.html',
+                inject: true
+          })
+      ],
       module: {
             rules: [
                   {
@@ -20,7 +27,12 @@ module.exports = {
                   },
                   {
                         test: /\.css$/,
-                        loader: ['style-loader', 'css-loader'], // 支持JSX
+                        loader: ['style-loader', {
+                              loader: 'css-loader',
+                              options: {
+                                    modules: true
+                              }
+                        }], // 支持JSX
 
                   }
             ]

@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import proxy from 'http-proxy-middleware'
 import { getServerStore } from '../store/store'
 import Headers from '../component/header'
+import path from 'path'
+import fs from 'fs';
 const app = express()
 const store = getServerStore()
 const proxyTable = {
@@ -17,8 +19,17 @@ const proxyTable = {
 }
 Object.keys(proxyTable).forEach(k => app.use(proxy(k, proxyTable[k])))
 app.use(express.static('public'))
+function csrRender(res) {
+   // 读取CSR
+   const filename = path.resolve(process.cwd(), 'public/index.csr.html')
+   const html = fs.readFileSync(filename, 'utf-8')
+   res.send(html)
+}
 app.get('*', (req, res) => {
-      console.log(req.path)
+      if (req.query.mode === 'csr') {
+            console.log('open')
+            csrRender(res)
+      }
       if (req.path === '/favicon.ico') return
       // 把react组件解析成HTML
       const promise = []
@@ -38,8 +49,9 @@ app.get('*', (req, res) => {
       // console.log(Promise.allSettled([]))
       // promise.map(p => p.catch((e) => { return e }))
       Promise.all(promise).then(e => {
-            const context = {}
-            console.log(context)
+            const context = {
+                  css: []
+            }
             content = renderToString(
                   <Provider store={store}>
                         <StaticRouter localtion={req.url} context={context}>
@@ -53,19 +65,22 @@ app.get('*', (req, res) => {
 
                   </Provider>
             )
-            console.log(context)
             if (context.statuscode) {
                   res.status(context.statuscode)
             }
-            if(context.action == 'REPLACE') {
+            if (context.action == 'REPLACE') {
                   res.redirect(301, context.url)
             }
+            const css = context.css.join('\n')
       }).finally(() => {
             res.send(`
             <html>
                <head>
                   <meta charset='utf-8' />
                   <title>reacr ssr</title>
+                  <style>
+                  ${css}
+                  </style>
                </head>
                <body>
                    <div id='root'>${content}</div>
